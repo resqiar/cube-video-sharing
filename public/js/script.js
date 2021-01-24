@@ -3,11 +3,55 @@
 const socket = io('/')
 
 // TODO: Setup new peer connection
-var peer = new Peer(undefined, {
-    host: '/',
-    port: '3030',
-    path: '/peerjs'
+const peer = new Peer(undefined, {
+    path: '/peerjs',
+    host: "/",
+    port: "3030"
 })
+
+
+// ? **************************************Video Section*********************************** ? //
+
+// TODO: Create global var for video stream
+let myVideoStream // ? user's video stream
+
+// TODO: Save video grid element
+const videoGrid = document.getElementById("video-grid")
+
+// TODO: Create new element <video> when video is connected
+const myVideo = document.createElement('video')
+myVideo.muted = true
+
+// TODO: Request user permission to access video and audio
+navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
+    myVideoStream = stream
+
+    // TODO: Add user their own video stream
+    addVideoStream(myVideo, stream)
+
+    // TODO : When on call - answer a call then provide user's mediaStream - *to another user*
+    peer.on('call', call => {
+        // Answer the call, providing our mediaStream
+        call.answer(stream);
+
+        // create new element
+        const newVideo = document.createElement('video')
+
+        // call everyone else to provide their video stream as well
+        call.on('stream', userVideoStream => {
+            addVideoStream(newVideo, userVideoStream)
+        })
+    })
+
+    // TODO: When someone connected to the room - tell everyone to peer each other
+    socket.on('someone-connected', (userId) => {
+        showToast(`${userId} has joined`)
+        
+        setTimeout(() => {
+            connectTheirVideo(userId, stream) // ? this function will render other user video stream
+        }, 2000) //! problem : stream is not available directly when event "someone-connected", so, need extra time to wait for stream
+    })
+}).catch(error => console.error(error));
 
 peer.on('open', (id) => {
     // emit user and its id when joined the room
@@ -16,44 +60,30 @@ peer.on('open', (id) => {
 
 
 
-// ? **************************************Video Section*********************************** ? //
+// ? This function wil handle someone else video stream and render it to view
+const connectTheirVideo = (userId, stream) => {
 
-// TODO: Save video grid element
-const videoGrid = document.getElementById("video-grid")
+    // Call a peer, providing our mediaStream
+    const call = peer.call(userId, stream);
 
-// TODO: Create new element <video> when video is connected
-const videoElement = document.createElement('video')
-videoElement.muted = true
+    // create a new element for other user's video
+    const videoElement = document.createElement('video')
 
-// TODO: Create global var for video 
-let myVideoStream
-
-// TODO: Request user permission to access video and audio
-navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
-    myVideoStream = stream
-
-    // TODO: Add user their own video stream
-    addVideoStream(videoElement, stream)
-
-    // TODO : When on call - answer a call then provide user's mediaStream - *to another user*
-    peer.on('call', (call) => {
-        // Answer the call, providing our mediaStream
-        call.answer(stream);
-
-        // create new element
-        const newVideo = document.createElement('video')
-
-        // call everyone else to provide their video stream as well
-        call.on('stream', (userVideoStream) => {
-            addVideoStream(newVideo, userVideoStream)
-        })
+    // call them
+    call.on('stream', userVideoStream => {
+        addVideoStream(videoElement, userVideoStream)
     })
 
-    // TODO: When someone connected to the room - tell everyone to peer each other
-    socket.on('someone-connected', (userId) => {
-        connectTheirVideo(userId, stream) // ? this function will render other user video stream
+    call.on('close', () => {
+        videoElement.remove()
     })
-})
+
+    // TODO: When their stream is disconnected - remove their video element
+    socket.on('someone-disconnected', userId => {
+        showToast(`${userId} has left`)
+        videoElement.remove()
+    })
+}
 
 // TODO: Create function to handle video stream
 const addVideoStream = (element, stream) => {
@@ -64,23 +94,18 @@ const addVideoStream = (element, stream) => {
         element.play()
     })
 
-    // append video to html
-    videoGrid.append(element)
+     // append video to html
+     videoGrid.append(element)
 }
 
+// TODO: Show bottom toast
+const showToast = (message) => {
+    // Get the snackbar DIV
+    var x = document.getElementById("snackbar")
+    // Add the "show" class to DIV
+    x.className = "show"
+    x.innerHTML = message
 
-// ? This function wil handle someone else video stream and render it to view
-const connectTheirVideo = (userId, dataStream) => {
-    console.log(`${userId} has connected `)
-
-    // Call a peer, providing our mediaStream
-    var call = peer.call(userId, dataStream);
-
-    // create a new element for other user's video
-    const videoElement = document.createElement('video')
-
-    // call them
-    call.on('stream', (userVideoStream) => {
-        addVideoStream(videoElement, userVideoStream)
-    })
+    // After 3 seconds, remove the show class from DIV
+    setTimeout(() => { x.className = x.className.replace("show", "") }, 3000)
 }
