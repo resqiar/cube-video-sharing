@@ -16,7 +16,7 @@ const peer = new Peer(undefined, {
 let myVideoStream // ? user's video stream
 
 // TODO: Save video grid element
-const videoGrid = document.getElementById("video-grid")
+const videoGrid = document.getElementById("video__grid")
 
 // TODO: Create new element <video> when video is connected
 const myVideo = document.createElement('video')

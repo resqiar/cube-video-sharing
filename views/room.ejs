@@ -7,6 +7,7 @@
   <title>Giganto | Video Conference</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
   <script>
     // SAVE ROOM ID
     const ROOM_ID = "<%= roomId %>"
@@ -18,10 +19,40 @@
   <div class="main">
     <div class="main__left">
       <div class="main__video">
-        <div id="video-grid"></div>
+        <div id="video__grid"></div>
       </div>
       <div class="main__control">
+        <div class="main__control__block">
+          <div class="main__control__button">
+            <i class="fas fa-microphone-alt"></i>
+            <span class="main__control__button__text">Mute</span>
+          </div>
+          <div class="main__control__button">
+            <i class="fas fa-video"></i>
+            <span class="main__control__button__text">Stream</span>
+          </div>
+        </div>
 
+        <div class="main__control__block">
+          <div class="main__control__button">
+            <i class="fas fa-shield-alt"></i>
+            <span class="main__control__button__text">Security</span>
+          </div>
+          <div class="main__control__button">
+            <i class="fas fa-users"></i>
+            <span class="main__control__button__text">Participants</span>
+          </div>
+          <div class="main__control__button">
+            <i class="fas fa-comment-alt"></i>
+            <span class="main__control__button__text">Chat</span>
+          </div>
+        </div>
+
+        <div class="main__control__block">
+          <div class="main__control__button__leaving">
+            <span class="main__control__button__text__leaving">Leave Meeting</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="main__right">

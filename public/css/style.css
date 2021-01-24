@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+    transition: 0.2s;
+}
+
 body {
     background-color: #121212;
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 #video-grid {
@@ -37,6 +44,49 @@ video {
 .main__control {
     background-color: #1f1b24;
     height: 50px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 8px;
+}
+
+.main__control__block {
+    display: flex;
+}
+
+.main__control__button {
+    display: flex;
+    padding: 4px 8px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; 
+    cursor: pointer;
+}
+.main__control__button:hover {
+    background-color: #343434;
+}
+
+.main__control__button__leaving {
+    display: flex;
+    padding: 4px 8px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; 
+    cursor: pointer;
+}
+
+.main__control__button__text__leaving {
+    color: white;
+    padding: 2px 4px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.main__control__button__text__leaving:hover {
+    color: red;
+    padding: 2px 4px;
+    border: 1px solid red;
+    border-radius: 5px;
 }
 
 .main__right {
