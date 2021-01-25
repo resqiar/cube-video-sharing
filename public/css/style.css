@@ -134,7 +134,7 @@ video {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid #fff;
+    border-top: 1px solid slategray;
 }
 
 #chat__input {
@@ -152,6 +152,22 @@ video {
     outline: none;
 }
 
+.chat__user {
+    font-size: small;
+    color: slategray;
+}
+
+.chat__text {
+    margin-top: -4px;
+    font-size: smaller;
+}
+
+.chat__container {
+    display: flex;
+    flex-direction: column;
+    padding: 2px 18px;
+    list-style: none;
+}
 
 /* ? The snackbar - position it at the bottom and in the middle of the screen ? */
 #snackbar {

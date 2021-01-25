@@ -138,3 +138,32 @@ const closeIC = document.querySelector("#close").addEventListener('click', () =>
     const chatControlColor = document.querySelector('#main__control__chat')
     chatControlColor.style.color = '#fff'
 })
+
+
+// TODO: Send message when user press enter
+const input = document.querySelector('#chat__input')
+
+// set event 
+input.addEventListener('keyup', (e) => {
+    if (e.keyCode === 13) { // when user type "enter"
+        e.preventDefault()
+
+        // check if null - then return
+        if (input.value.length <= 0) return;
+
+        socket.emit('message', input.value, peer.id)
+
+        // reset input
+        input.value = ''
+    }
+})
+
+// TODO: Retrive the message
+socket.on('messaging', (message, userId) => {
+    const column = document.querySelector('.chat__column')
+
+    const li = `<li class="chat__container"><span class="chat__user">${userId}</span><span class="chat__text">${message}</span></li>`
+    
+    column.insertAdjacentHTML("beforebegin", li)
+})
+

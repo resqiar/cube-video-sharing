@@ -41,6 +41,11 @@ io.on('connection', (socket) => {
         // broadcast to everyone in the specific room that someone has joined
         socket.to(roomId).broadcast.emit('someone-connected', userId)
         
+        // broadcast to everyone in the specific room that someone has send a message
+        socket.on('message', message => {
+            io.to(roomId).emit('messaging', message, userId)
+        })
+
         // broadcast to everyone in the specific room that someone has left
         socket.on('disconnect', () => {
             socket.to(roomId).broadcast.emit('someone-disconnected', userId)
