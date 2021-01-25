@@ -110,6 +110,9 @@ const showToast = (message) => {
     setTimeout(() => { x.className = x.className.replace("show", "") }, 3000)
 }
 
+// ? **************************************Functionality Section*********************************** ? //
+
+
 //  TODO: Open Chat
 const openIC = document.querySelector("#main__control__chat").addEventListener('click', () => {
     const chat = document.querySelector('.main__right__hidden')
@@ -163,7 +166,7 @@ socket.on('messaging', (message, userId) => {
     const column = document.querySelector('.chat__column')
 
     const li = `<li class="chat__container"><span class="chat__user">${userId}</span><span class="chat__text">${message}</span></li>`
-    
+
     column.insertAdjacentHTML("beforebegin", li)
 
     // TODO: Scroll automatically to the bottom
@@ -175,3 +178,78 @@ const scrollToBottom = () => {
     container.scrollTop = container.scrollHeight
 }
 
+// TODO: Mute or unmute the audio
+const muteUnmute = () => {
+    if (!myVideoStream) return;
+
+    // first of all
+    // check the audio - if enabled or not
+    const audioEnabled = myVideoStream.getAudioTracks()[0].enabled
+
+    // ? then simply enable/disable the audio => The icon should alse updated accordingly
+    if (audioEnabled) {
+        myVideoStream.getAudioTracks()[0].enabled = false
+
+        iconMute(true) // set icon to muted
+    } else {
+        myVideoStream.getAudioTracks()[0].enabled = true
+
+        iconMute(false) // set icon to unmuted
+    }
+}
+
+const iconMute = (isMute) => {
+    if (isMute) {
+        const html = `
+        <i class="fas fa-microphone-alt-slash active"></i>
+        <span class="main__control__button__text active">Unmute</span>
+        `
+
+        document.querySelector('#main__control__audio').innerHTML = html
+    } else {
+        const html = `
+        <i class="fas fa-microphone-alt"></i>
+        <span class="main__control__button__text">Mute</span>
+        `
+
+        document.querySelector('#main__control__audio').innerHTML = html
+    }
+}
+
+// TODO: Enable/disable video stream
+const streamUnstream = () => {
+    if (!myVideoStream) return;
+
+    // first of all
+    // check the video - if enabled or not
+    const audioEnabled = myVideoStream.getVideoTracks()[0].enabled
+
+    // ? then simply enable/disable the audio => The icon should alse updated accordingly
+    if (audioEnabled) {
+        myVideoStream.getVideoTracks()[0].enabled = false
+
+        iconStream(false) // set icon to unstream
+    } else {
+        myVideoStream.getVideoTracks()[0].enabled = true
+
+        iconStream(true) // set icon to stream
+    }
+}
+
+const iconStream = (isStream) => {
+    if (!isStream) {
+        const html = `
+        <i class="fas fa-video-slash active"></i>
+        <span class="main__control__button__text active">Stream</span>
+        `
+
+        document.querySelector('#main__control__video').innerHTML = html
+    } else {
+        const html = `
+        <i class="fas fa-video"></i>
+        <span class="main__control__button__text">Unstream</span>
+        `
+
+        document.querySelector('#main__control__video').innerHTML = html
+    }
+}

@@ -31,6 +31,10 @@ body {
     background: #555;
 }
 
+.active {
+    color: slategray;
+}
+
 #video-grid {
     display: flex;
     justify-content: center;
