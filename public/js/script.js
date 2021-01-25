@@ -165,5 +165,13 @@ socket.on('messaging', (message, userId) => {
     const li = `<li class="chat__container"><span class="chat__user">${userId}</span><span class="chat__text">${message}</span></li>`
     
     column.insertAdjacentHTML("beforebegin", li)
+
+    // TODO: Scroll automatically to the bottom
+    scrollToBottom()
 })
+
+const scrollToBottom = () => {
+    const container = document.querySelector(".main__chat")
+    container.scrollTop = container.scrollHeight
+}
 
