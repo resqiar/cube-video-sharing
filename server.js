@@ -34,21 +34,21 @@ app.get('/:room', (req, res) => {
 
 // TODO: Set Socket.io con
 io.on('connection', (socket) => {
-    socket.on('join-room', (roomId, userId) => {
+    socket.on('join-room', (roomId, userId, fullname) => {
         // Join user to the room
         socket.join(roomId)
 
         // broadcast to everyone in the specific room that someone has joined
-        socket.to(roomId).broadcast.emit('someone-connected', userId)
+        socket.to(roomId).broadcast.emit('someone-connected', userId, fullname)
         
         // broadcast to everyone in the specific room that someone has send a message
         socket.on('message', message => {
-            io.to(roomId).emit('messaging', message, userId)
+            io.to(roomId).emit('messaging', message, userId, fullname)
         })
 
         // broadcast to everyone in the specific room that someone has left
         socket.on('disconnect', () => {
-            socket.to(roomId).broadcast.emit('someone-disconnected', userId)
+            socket.to(roomId).broadcast.emit('someone-disconnected', userId, fullname)
         })
     })
 })

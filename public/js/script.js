@@ -9,6 +9,23 @@ const peer = new Peer(undefined, {
     port: "3030"
 })
 
+// TODO: Get username from cache
+let username = sessionStorage.getItem('fullname')
+
+// ! If null then ask user if they wanna have a username?
+if (sessionStorage.getItem('fullname') === null) {
+    const getFullname = prompt("Looks like you dont have username yet?", "")
+
+    if (getFullname === null || getFullname === "") { // ! If they dont want - set to default username
+        username = 'Anonymous'
+    } else {  // ! If they provide the following - save it to web session - so when user reload - safe
+        username = getFullname
+
+        // save to local local storage
+        sessionStorage.setItem('fullname', getFullname)
+    }
+}
+
 
 // ? **************************************Video Section*********************************** ? //
 
@@ -44,8 +61,8 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream =>
     })
 
     // TODO: When someone connected to the room - tell everyone to peer each other
-    socket.on('someone-connected', (userId) => {
-        showToast(`${userId} has joined`)
+    socket.on('someone-connected', (userId, fullname) => {
+        showToast(`${fullname} has joined`)
 
         setTimeout(() => {
             connectTheirVideo(userId, stream) // ? this function will render other user video stream
@@ -55,7 +72,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream =>
 
 peer.on('open', (id) => {
     // emit user and its id when joined the room
-    socket.emit('join-room', ROOM_ID, id)
+    socket.emit('join-room', ROOM_ID, id, username)
 });
 
 
@@ -79,8 +96,8 @@ const connectTheirVideo = (userId, stream) => {
     })
 
     // TODO: When their stream is disconnected - remove their video element
-    socket.on('someone-disconnected', userId => {
-        showToast(`${userId} has left`)
+    socket.on('someone-disconnected', (userId , fullname) => {
+        showToast(`${fullname} has left`)
         videoElement.remove()
     })
 }
@@ -162,10 +179,10 @@ input.addEventListener('keyup', (e) => {
 })
 
 // TODO: Retrive the message
-socket.on('messaging', (message, userId) => {
+socket.on('messaging', (message, userId, fullname) => {
     const column = document.querySelector('.chat__column')
 
-    const li = `<li class="chat__container"><span class="chat__user">${userId}</span><span class="chat__text">${message}</span></li>`
+    const li = `<li class="chat__container"><span class="chat__user">${fullname}</span><span class="chat__text">${message}</span></li>`
 
     column.insertAdjacentHTML("beforebegin", li)
 
