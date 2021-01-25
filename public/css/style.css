@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 * {
-    transition: 0.2s;
+    transition: 0.1s ease-in;
 }
 
 body {
@@ -29,7 +29,7 @@ video {
 }
 
 .main__left {
-    flex: 0.8;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
@@ -76,22 +76,80 @@ video {
 }
 
 .main__control__button__text__leaving {
-    color: white;
-    padding: 2px 4px;
-    border: 1px solid white;
-    border-radius: 5px;
-}
-
-.main__control__button__text__leaving:hover {
     color: red;
     padding: 2px 4px;
     border: 1px solid red;
     border-radius: 5px;
 }
 
+.main__control__button__text__leaving:hover {
+    color: red;
+    font-weight: bold;
+    padding: 2px 4px;
+    border: 2px solid red;
+    border-radius: 5px;
+}
+
 .main__right {
-    flex: 0.2;
+    flex: 0.3;
     background-color: #1f1b24;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.main__right__hidden {
+    display: none;
+}
+
+.main__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.main__header__close {
+    color: gray;
+    cursor: pointer;
+    flex: 0.2;
+}
+
+.main__header__close:hover {
+    color: #fff;
+    cursor: pointer;
+    flex: 0.2;
+}
+
+.main__header__title {
+    flex: 0.6;
+}
+
+.main__chat {
+    flex-grow: 1;
+}
+
+.main__chat__input {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #fff;
+}
+
+#chat__input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 14px;
+}
+
+#chat__input:focus {
+    outline: none;
 }
 
 

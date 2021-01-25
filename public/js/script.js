@@ -46,7 +46,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream =>
     // TODO: When someone connected to the room - tell everyone to peer each other
     socket.on('someone-connected', (userId) => {
         showToast(`${userId} has joined`)
-        
+
         setTimeout(() => {
             connectTheirVideo(userId, stream) // ? this function will render other user video stream
         }, 2000) //! problem : stream is not available directly when event "someone-connected", so, need extra time to wait for stream
@@ -94,8 +94,8 @@ const addVideoStream = (element, stream) => {
         element.play()
     })
 
-     // append video to html
-     videoGrid.append(element)
+    // append video to html
+    videoGrid.append(element)
 }
 
 // TODO: Show bottom toast
@@ -109,3 +109,32 @@ const showToast = (message) => {
     // After 3 seconds, remove the show class from DIV
     setTimeout(() => { x.className = x.className.replace("show", "") }, 3000)
 }
+
+//  TODO: Open Chat
+const openIC = document.querySelector("#main__control__chat").addEventListener('click', () => {
+    const chat = document.querySelector('.main__right__hidden')
+    if (chat) {
+        chat.className = "main__right"
+
+        // ? SET ICON COLOR
+        const chatControlColor = document.querySelector('#main__control__chat')
+        chatControlColor.style.color = 'slategray'
+    } else {
+        const chat = document.querySelector('.main__right')
+        chat.className = "main__right__hidden"
+
+        // ? SET COLOR BACK TO WHITE
+        const chatControlColor = document.querySelector('#main__control__chat')
+        chatControlColor.style.color = '#fff'
+    }
+})
+
+//  TODO: Close Chat from icon
+const closeIC = document.querySelector("#close").addEventListener('click', () => {
+    const chat = document.querySelector('.main__right')
+    chat.className = "main__right__hidden"
+
+    // ? SET COLOR BACK TO WHITE
+    const chatControlColor = document.querySelector('#main__control__chat')
+    chatControlColor.style.color = '#fff'
+})

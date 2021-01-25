@@ -42,7 +42,7 @@
             <i class="fas fa-users"></i>
             <span class="main__control__button__text">Participants</span>
           </div>
-          <div class="main__control__button">
+          <div class="main__control__button" id="main__control__chat">
             <i class="fas fa-comment-alt"></i>
             <span class="main__control__button__text">Chat</span>
           </div>
@@ -55,9 +55,20 @@
         </div>
       </div>
     </div>
-    <div class="main__right">
+    <div class="main__right__hidden">
       <div class="main__header">
-        <h1>CHAT</h1>
+        <div class="main__header__close">
+          <i class="fas fa-times" id="close"></i>
+        </div>
+        <div class="main__header__title">
+          <h3>Messaging</h3>
+        </div>
+      </div>
+      <div class="main__chat">
+
+      </div>
+      <div class="main__chat__input">
+        <input type="text" name="chat" id="chat__input" placeholder="Type a message...">
       </div>
     </div>
   </div>
