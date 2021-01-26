@@ -6,7 +6,7 @@ const socket = io('/')
 const peer = new Peer(undefined, {
     path: '/peerjs',
     host: "/",
-    port: "3030"
+    port: "443"
 })
 
 // TODO: Get username from cache
@@ -37,6 +37,7 @@ const videoGrid = document.getElementById("video__grid")
 
 // TODO: Create new element <video> when video is connected
 const myVideo = document.createElement('video')
+
 myVideo.muted = true
 
 // TODO: Request user permission to access video and audio
