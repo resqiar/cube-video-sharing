@@ -71,20 +71,29 @@ video {
     color: white;
     display: flex;
     justify-content: space-between;
-    padding: 2px 8px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
 .main__control__block {
     display: flex;
+    padding-top: 4px;
 }
 
 .main__control__button {
     display: flex;
+    color: gray;
     padding: 4px 8px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     cursor: pointer;
+}
+
+.main__control__button__text {
+    margin-top: 4px;
+    font-size: 12px;
+    letter-spacing: 2px;
 }
 
 .main__control__button:hover {

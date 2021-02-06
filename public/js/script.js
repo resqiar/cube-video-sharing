@@ -139,14 +139,14 @@ const openIC = document.querySelector("#main__control__chat").addEventListener('
 
         // ? SET ICON COLOR
         const chatControlColor = document.querySelector('#main__control__chat')
-        chatControlColor.style.color = 'slategray'
+        chatControlColor.style.color = '#fff'
     } else {
         const chat = document.querySelector('.main__right')
         chat.className = "main__right__hidden"
 
         // ? SET COLOR BACK TO WHITE
         const chatControlColor = document.querySelector('#main__control__chat')
-        chatControlColor.style.color = '#fff'
+        chatControlColor.style.color = 'gray'
     }
 })
 
@@ -257,14 +257,14 @@ const streamUnstream = () => {
 const iconStream = (isStream) => {
     if (!isStream) {
         const html = `
-        <i class="fas fa-video-slash active"></i>
+        <i class="fas fa-lg fa-video-slash active"></i>
         <span class="main__control__button__text active">Stream</span>
         `
 
         document.querySelector('#main__control__video').innerHTML = html
     } else {
         const html = `
-        <i class="fas fa-video"></i>
+        <i class="fas fa-lg fa-video"></i>
         <span class="main__control__button__text">Unstream</span>
         `
 
