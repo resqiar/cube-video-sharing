@@ -8,6 +8,7 @@ body {
     background-color: #121212;
     margin: 0;
     padding: 0;
+    overflow-y: hidden;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -47,9 +48,16 @@ video {
     object-fit: cover;
 }
 
+.screen-video {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    object-fit: cover;
+}
+
 .main {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .main__left {
@@ -63,6 +71,7 @@ video {
     flex-grow: 1;
     justify-content: center;
     align-items: center;
+    overflow-y: hidden;
 }
 
 .main__control {
@@ -70,9 +79,37 @@ video {
     height: 50px;
     color: white;
     display: flex;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: fixed;
     justify-content: space-between;
     padding-left: 8px;
     padding-right: 8px;
+}
+
+.main__show__control {
+    background-color: transparent;
+    height: min-content;
+    width: min-content;
+    color: gray;
+    display: flex;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    position: fixed;
+    padding: 4px;
+    cursor: pointer;
+    display: none;
+    border-radius: 20px;
+    justify-content: space-between;
+}
+
+.main__show__control:hover{
+    background-color: #1f1b24;
+    color: white;
 }
 
 .main__control__block {
@@ -98,6 +135,7 @@ video {
 
 .main__control__button:hover {
     background-color: #343434;
+    color: white;
 }
 
 .main__control__button__leaving {

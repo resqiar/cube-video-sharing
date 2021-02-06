@@ -50,13 +50,16 @@
             <i class="fas fa-lg fa-comment-alt"></i>
             <span class="main__control__button__text">Chat</span>
           </div>
-          <div class="main__control__button">
+          <div class="main__control__button" id="main__control__shareScreen">
             <i class="fas fa-lg fa-external-link-square-alt text-warning"></i>
             <span class="main__control__button__text text-warning">Share Screen</span>
           </div>
         </div>
 
-        <div class="main__control__block" id="main__control__leave">
+        <div class="main__control__block" id="main__control__hide">
+          <div class="main__control__button">
+            <span class="main__control__button"><i class="fas fa-eye-slash"></i></span>
+          </div>
           <div class="main__control__button__leaving">
             <span class="main__control__button__text__leaving" data-bs-toggle="modal"
               data-bs-target="#staticBackdrop">Leave Meeting</span>
@@ -100,7 +103,11 @@
     </div>
   </div>
 
-
+  <div class="main__show__control">
+    <div class="container">
+      <i class="fas fa-eye"></i>
+    </div>
+  </div>
 
   <!-- The actual snackbar -->
   <div id="snackbar"></div>

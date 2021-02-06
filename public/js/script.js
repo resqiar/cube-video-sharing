@@ -31,6 +31,7 @@ if (sessionStorage.getItem('fullname') === null) {
 
 // TODO: Create global var for video stream
 let myVideoStream // ? user's video stream
+let screenStream // ? user's screen stream
 
 // TODO: Save video grid element
 const videoGrid = document.getElementById("video__grid")
@@ -129,6 +130,16 @@ const showToast = (message) => {
 }
 
 // ? **************************************Functionality Section*********************************** ? //
+
+// TODO: Hide/Show Control 
+const btnHide = document.querySelector('#main__control__hide').addEventListener('click', () => {
+    document.querySelector('.main__control').style = 'display:none'
+    document.querySelector('.main__show__control').style = 'display:flex'
+})
+const btnShow = document.querySelector('.main__show__control').addEventListener('click', () => {
+    document.querySelector('.main__show__control').style = 'display:none'
+    document.querySelector('.main__control').style = 'display:flex'
+})
 
 
 //  TODO: Open Chat
@@ -272,3 +283,36 @@ const iconStream = (isStream) => {
     }
 }
 
+
+const btnShareScreen = document.querySelector('#main__control__shareScreen').addEventListener('click', (e) => {
+    shareScreen()
+})
+
+const myScreen = document.createElement('video')
+myScreen.className = 'screen-video'
+
+const shareScreen =  () => {
+    myVideo.remove()
+
+   screenStream = navigator.mediaDevices.getDisplayMedia({
+    video: {
+        cursor: "always"
+    },
+    audio: true
+   }).then(stream => {
+        addScreenStream(myScreen, stream)
+   })
+}
+
+// TODO: Create function to handle screen stream
+const addScreenStream = (element, stream) => {
+    element.srcObject = stream
+
+    // play video
+    element.addEventListener('loadedmetadata', () => {
+        element.play()
+    })
+
+    // append video to html
+    videoGrid.append(element)
+}
