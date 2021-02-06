@@ -6,9 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cube | Realtime Video Sharing</title>
   <link rel="shortcut icon" href="/images/logo.svg" type="image/x-icon">
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/style.css" />
   <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
   <script>
     // SAVE ROOM ID
     const ROOM_ID = "<%= roomId %>"
@@ -16,7 +19,7 @@
 </head>
 
 <body>
-  
+
   <div class="main">
     <div class="main__left">
       <div class="main__video">
@@ -51,18 +54,34 @@
 
         <div class="main__control__block" id="main__control__leave">
           <div class="main__control__button__leaving">
-            <span class="main__control__button__text__leaving">Leave Meeting</span>
+            <span class="main__control__button__text__leaving" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop">Leave Meeting</span>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark">
+              <div class="modal-body mt-4 text-center">
+                <h5>Are you sure want to leave this room?</h5>
+              </div>
+              <div class="container px-3 py-3 d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-sm btn-dark" data-bs-dismiss="modal">Cancel</button>
+                <a href="/thankyou" class="btn btn-dark text-danger btn-sm"><b>Yes, leave this room</b></a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="main__right__hidden">
-      <div class="main__header">
+      <div class="main__header mt-3">
         <div class="main__header__close">
           <i class="fas fa-times" id="close"></i>
         </div>
         <div class="main__header__title">
-          <h3>Messaging</h3>
+          <h5>Messaging</h5>
         </div>
       </div>
       <div class="main__chat">
@@ -71,7 +90,8 @@
         </ul>
       </div>
       <div class="main__chat__input">
-        <input type="text" name="chat" id="chat__input" placeholder="Type a message..." autocomplete="off" aria-autocomplete="none">
+        <input type="text" name="chat" id="chat__input" placeholder="Type a message..." autocomplete="off"
+          aria-autocomplete="none">
       </div>
     </div>
   </div>
@@ -80,8 +100,11 @@
 
   <!-- The actual snackbar -->
   <div id="snackbar"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+  </script>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="js/script.js"></script>
+  <script src="/js/script.js"></script>
 </body>
 
 </html>

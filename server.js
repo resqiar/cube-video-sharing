@@ -24,12 +24,16 @@ app.use('/peerjs', peerServer);
 app.use(cors())
 
 app.get('/', (req, res) => {
-    res.redirect(`/${uuidv4()}`)
+    res.redirect(`/sharing/${uuidv4()}`)
 })
 
 // TODO: Get room id
-app.get('/:room', (req, res) => {
+app.get('/sharing/:room', (req, res) => {
     res.render('room', { roomId: req.params.room })
+})
+
+app.get('/thankyou', (req, res) => {
+    res.render('finish')
 })
 
 // TODO: Set Socket.io con
@@ -54,5 +58,5 @@ io.on('connection', (socket) => {
 })
 
 
-const PORT = process.env.PORT || 3030
+const PORT = process.env.PORT || 3000
 server.listen(PORT, console.log(`Server running on ${PORT}`))

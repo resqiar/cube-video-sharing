@@ -6,7 +6,7 @@ const socket = io('/')
 const peer = new Peer(undefined, {
     path: '/peerjs',
     host: "/",
-    port: "443"
+    port: "3000"
 })
 
 // TODO: Get username from cache
@@ -271,3 +271,4 @@ const iconStream = (isStream) => {
         document.querySelector('#main__control__video').innerHTML = html
     }
 }
+
