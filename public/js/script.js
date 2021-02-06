@@ -132,13 +132,15 @@ const showToast = (message) => {
 // ? **************************************Functionality Section*********************************** ? //
 
 // TODO: Hide/Show Control 
-const btnHide = document.querySelector('#main__control__hide').addEventListener('click', () => {
+const btnHide = document.querySelector('.main__hide__control').addEventListener('click', () => {
     document.querySelector('.main__control').style = 'display:none'
+    document.querySelector('.main__hide__control').style = 'display:none'
     document.querySelector('.main__show__control').style = 'display:flex'
 })
 const btnShow = document.querySelector('.main__show__control').addEventListener('click', () => {
     document.querySelector('.main__show__control').style = 'display:none'
     document.querySelector('.main__control').style = 'display:flex'
+    document.querySelector('.main__hide__control').style = 'display:flex'
 })
 
 

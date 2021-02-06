@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
-* {
-    transition: 0.1s ease-in;
-}
 
 body {
     background-color: #121212;
@@ -92,8 +89,7 @@ video {
     background-color: transparent;
     height: min-content;
     width: min-content;
-    color: gray;
-    display: flex;
+    color: white;
     bottom: 0;
     right: 0;
     left: 0;
@@ -104,23 +100,42 @@ video {
     cursor: pointer;
     display: none;
     border-radius: 20px;
-    justify-content: space-between;
+}
+
+.main__hide__control {
+    background-color: transparent;
+    height: min-content;
+    width: min-content;
+    color: gray;
+    display: flex;
+    gap: 4px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin-bottom: 65px;
+    margin-left: 10px;
+    position: fixed;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 20px;
 }
 
 .main__show__control:hover{
     background-color: #1f1b24;
-    color: white;
+}
+
+.main__hide__control:hover{
+    background-color: #1f1b246b;
 }
 
 .main__control__block {
     display: flex;
-    padding-top: 4px;
 }
 
 .main__control__button {
     display: flex;
     color: gray;
-    padding: 4px 8px;
+    padding: 6px 8px 0px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
