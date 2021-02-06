@@ -1,4 +1,4 @@
-# cube-video-sharing
+# Cube Video Sharing Application
 Video sharing application with real-time data communication. Powered by Socket.io and Peer to Peer data stream.
 
 ## Screenshot
@@ -7,6 +7,9 @@ Video sharing application with real-time data communication. Powered by Socket.i
 ### Live Preview
 > You can live preview it on heroku hosting [here](https://guarded-harbor-56339.herokuapp.com/)
 https://guarded-harbor-56339.herokuapp.com/
+
+### Current Feature on Development
+- Share Screen
 
 ### Developed using
 - Node.js
