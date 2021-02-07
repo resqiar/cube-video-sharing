@@ -38,7 +38,7 @@ body {
     justify-content: center;
 }
 
-video {
+.stream-video {
     width: 400px;
     height: 300px;
     padding: 8px;
@@ -50,6 +50,22 @@ video {
     height: 100%;
     padding: 0;
     object-fit: cover;
+    position: relative;
+}
+
+.onsharing__grid {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 9;    
+}
+
+.onsharing-video {
+    width: 280px;
+    height: 180px;
+    padding: 2px;
+    object-fit: cover;
+    z-index: 10;
 }
 
 .main {

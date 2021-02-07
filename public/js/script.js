@@ -18,7 +18,7 @@ if (sessionStorage.getItem('fullname') === null) {
 
     if (getFullname === null || getFullname === "") { // ! If they dont want - set to default username
         username = 'Anonymous'
-    } else {  // ! If they provide the following - save it to web session - so when user reload - safe
+    } else { // ! If they provide the following - save it to web session - so when user reload - safe
         username = getFullname
 
         // save to local local storage
@@ -34,15 +34,19 @@ let myVideoStream // ? user's video stream
 let screenStream // ? user's screen stream
 
 // TODO: Save video grid element
-const videoGrid = document.getElementById("video__grid")
+const videoGrid = document.querySelector(".stream__video__grid")
+const screenGrid = document.querySelector("#video__grid")
 
 // TODO: Create new element <video> when video is connected
 const myVideo = document.createElement('video')
-
+myVideo.className = 'stream-video'
 myVideo.muted = true
 
 // TODO: Request user permission to access video and audio
-navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream => {
+navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true
+}).then(stream => {
     myVideoStream = stream
 
     // TODO: Add user their own video stream
@@ -55,6 +59,7 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream =>
 
         // create new element
         const newVideo = document.createElement('video')
+        newVideo.className = 'stream-video'
 
         // call everyone else to provide their video stream as well
         call.on('stream', userVideoStream => {
@@ -66,8 +71,13 @@ navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(stream =>
     socket.on('someone-connected', (userId, fullname) => {
         showToast(`${fullname} has joined`)
 
+        // create a new element for other user's video
+        const videoElement = document.createElement('video')
+        videoElement.className = 'stream-video'
+        videoElement.muted = true
+
         setTimeout(() => {
-            connectTheirVideo(userId, stream) // ? this function will render other user video stream
+            connectTheirVideo(userId, stream, videoElement) // ? this function will render other user video stream
         }, 2000) //! problem : stream is not available directly when event "someone-connected", so, need extra time to wait for stream
     })
 }).catch(error => console.error(error));
@@ -80,13 +90,11 @@ peer.on('open', (id) => {
 
 
 // ? This function wil handle someone else video stream and render it to view
-const connectTheirVideo = (userId, stream) => {
+const connectTheirVideo = (userId, stream, videoElement) => {
+    videoElement.srcObject = stream
 
     // Call a peer, providing our mediaStream
     const call = peer.call(userId, stream);
-
-    // create a new element for other user's video
-    const videoElement = document.createElement('video')
 
     // call them
     call.on('stream', userVideoStream => {
@@ -98,7 +106,7 @@ const connectTheirVideo = (userId, stream) => {
     })
 
     // TODO: When their stream is disconnected - remove their video element
-    socket.on('someone-disconnected', (userId , fullname) => {
+    socket.on('someone-disconnected', (userId, fullname) => {
         showToast(`${fullname} has left`)
         videoElement.remove()
     })
@@ -126,7 +134,9 @@ const showToast = (message) => {
     x.innerHTML = message
 
     // After 3 seconds, remove the show class from DIV
-    setTimeout(() => { x.className = x.className.replace("show", "") }, 3000)
+    setTimeout(() => {
+        x.className = x.className.replace("show", "")
+    }, 3000)
 }
 
 // ? **************************************Functionality Section*********************************** ? //
@@ -286,24 +296,77 @@ const iconStream = (isStream) => {
 }
 
 
-const btnShareScreen = document.querySelector('#main__control__shareScreen').addEventListener('click', (e) => {
-    shareScreen()
-})
+// const btnShareScreen = document.querySelector('#main__control__shareScreen').addEventListener('click', (e) => {
+//     shareScreen()
+// })
 
 const myScreen = document.createElement('video')
 myScreen.className = 'screen-video'
 
-const shareScreen =  () => {
-    myVideo.remove()
+const shareScreen = () => {
+    screenStream = navigator.mediaDevices.getDisplayMedia({
+        video: {
+            cursor: "always"
+        },
+        audio: true
+    }).then(stream => {
 
-   screenStream = navigator.mediaDevices.getDisplayMedia({
-    video: {
-        cursor: "always"
-    },
-    audio: true
-   }).then(stream => {
+        iconShareScreen(true) // set icon
+
+        document.querySelector('.stream__video__grid').className = 'onsharing__grid'
+        const v = document.querySelectorAll('.stream-video').forEach(function(item){
+            item.className = 'onsharing-video';
+        })
+
+        // Make the DIV element draggable:
+        dragElement(document.querySelector(".onsharing__grid"));
+
         addScreenStream(myScreen, stream)
-   })
+    }).catch((e) => {
+        console.log(e)
+    })
+}
+
+
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.querySelector(".onsharing-video")) {
+        // if present, the header is where you move the DIV from:
+        document.querySelector(".onsharing-video").onmousedown = dragMouseDown;
+    } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
 }
 
 // TODO: Create function to handle screen stream
@@ -316,5 +379,45 @@ const addScreenStream = (element, stream) => {
     })
 
     // append video to html
-    videoGrid.append(element)
+    screenGrid.append(element)
+}
+
+// TODO: Create function to handle stop/enable screen sharing
+const shareUnshare = () => {
+
+    // first of all
+    // check the video - if enabled or not
+    // const shareEnabled = screenStream.getVideoTracks()[0].enabled
+
+    // ? then simply enable/disable the audio => The icon should alse updated accordingly
+    if (!screenStream) {
+        shareScreen()
+    } else {
+        const tracks = myScreen.srcObject.getTracks()
+
+        tracks.forEach(track => track.stop());
+        myScreen.srcObject = null;
+        myScreen.remove()
+        screenStream = null
+        iconShareScreen(false) // set icon 
+    }
+}
+
+
+const iconShareScreen = (isSharing) => {
+    if (!isSharing) {
+        const html = `
+        <i class="fas fa-lg fa-external-link-square-alt text-warning"></i>
+            <span class="main__control__button__text text-warning">Share Screen</span>
+        `
+
+        document.querySelector('#main__control__shareScreen').innerHTML = html
+    } else {
+        const html = `
+        <i class="fas fa-lg fa-ban text-warning"></i>
+            <span class="main__control__button__text text-warning">Stop Sharing</span>
+        `
+
+        document.querySelector('#main__control__shareScreen').innerHTML = html
+    }
 }
