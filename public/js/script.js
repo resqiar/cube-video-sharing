@@ -1,6 +1,8 @@
 // ? **************************************Set Up Section*********************************** ? //
 
 const socket = io('/')
+let peers = {}, currentPeer = [];
+let userlist = [];
 
 // TODO: Setup new peer connection
 const peer = new Peer(undefined, {
@@ -61,6 +63,8 @@ navigator.mediaDevices.getUserMedia({
         // create new element
         const newVideo = document.createElement('video')
         newVideo.className = 'stream-video'
+        newVideo.controls = true
+        currentPeer.push(call.peerConnection);
 
         // call everyone else to provide their video stream as well
         call.on('stream', userVideoStream => {
@@ -75,6 +79,7 @@ navigator.mediaDevices.getUserMedia({
         // create a new element for other user's video
         const videoElement = document.createElement('video')
         videoElement.className = 'stream-video'
+        videoElement.controls = true
         videoElement.muted = true
 
         setTimeout(() => {
@@ -93,6 +98,7 @@ peer.on('open', (id) => {
 // ? This function wil handle someone else video stream and render it to view
 const connectTheirVideo = (userId, stream, videoElement) => {
     videoElement.srcObject = stream
+    videoElement.controls = true
 
     // Call a peer, providing our mediaStream
     const call = peer.call(userId, stream);
@@ -106,10 +112,14 @@ const connectTheirVideo = (userId, stream, videoElement) => {
         videoElement.remove()
     })
 
+    peers[userId] = call;
+    currentPeer.push(call.peerConnection);
+
     // TODO: When their stream is disconnected - remove their video element
     socket.on('someone-disconnected', (userId, fullname) => {
         showToast(`${fullname} has left`)
         videoElement.remove()
+        if (peers[userId]) peers[userId].close();
     })
 }
 
@@ -317,6 +327,15 @@ const shareScreen = () => {
 
         iconShareScreen(true) // set icon
 
+        for (let i = 0; i < currentPeer.length; i++) {
+
+            let sender = currentPeer[i].getSenders().find(function (s) {
+                return s.track.kind == screenTrack.kind;
+            })
+
+            sender.replaceTrack(screenTrack);
+        }
+
         document.querySelector('.stream__video__grid').className = 'onsharing__grid'
         document.querySelectorAll('.stream-video').forEach((item) => {
             item.className = 'onsharing-video'
@@ -407,6 +426,13 @@ const shareUnshare = () => {
         myScreen.remove()
         screenStream = null
 
+        let videoTrack = myVideoStream.getVideoTracks()[0];
+        for (let x = 0; x < currentPeer.length; x++) {
+            let sender = currentPeer[x].getSenders().find(function (s) {
+                return s.track.kind == videoTrack.kind;
+            })
+            sender.replaceTrack(videoTrack);
+        }
 
         document.querySelector('.onsharing__grid').className = 'stream__video__grid'
         const v = document.querySelectorAll('.onsharing-video').forEach(function (item) {
@@ -448,6 +474,8 @@ socket.on('someone-sharing', (id, fullname) => {
         showToast(`You are now sharing screen`)
     } else { // when another user is sharing => bind the stream
         showToast(`${fullname} is sharing screen`)
+
+        document.querySelector('#main__control__shareScreen').style = 'display:none'
     }
 
 })
@@ -459,5 +487,7 @@ socket.on('someone-unshare', (id, fullname) => {
         showToast(`You are now stop share screen`)
     } else { // when another user is sharing => bind the stream
         showToast(`${fullname} stop share screen`)
+    
+        document.querySelector('#main__control__shareScreen').style = 'display:flex'
     }
 })
