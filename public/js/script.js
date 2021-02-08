@@ -51,6 +51,7 @@ navigator.mediaDevices.getUserMedia({
 }).then(stream => {
     myVideoStream = stream
 
+
     // TODO: Add user their own video stream
     addVideoStream(myVideo, stream)
 
@@ -63,7 +64,7 @@ navigator.mediaDevices.getUserMedia({
         // create new element
         const newVideo = document.createElement('video')
         newVideo.className = 'stream-video'
-        newVideo.controls = true
+        newVideo.controls = false
         currentPeer.push(call.peerConnection);
 
         // call everyone else to provide their video stream as well
@@ -75,11 +76,12 @@ navigator.mediaDevices.getUserMedia({
     // TODO: When someone connected to the room - tell everyone to peer each other
     socket.on('someone-connected', (userId, fullname) => {
         showToast(`${fullname} has joined`)
+        setFullscreen()
 
         // create a new element for other user's video
         const videoElement = document.createElement('video')
         videoElement.className = 'stream-video'
-        videoElement.controls = true
+        videoElement.controls = false
         videoElement.muted = true
 
         setTimeout(() => {
@@ -98,7 +100,7 @@ peer.on('open', (id) => {
 // ? This function wil handle someone else video stream and render it to view
 const connectTheirVideo = (userId, stream, videoElement) => {
     videoElement.srcObject = stream
-    videoElement.controls = true
+    videoElement.controls = false
 
     // Call a peer, providing our mediaStream
     const call = peer.call(userId, stream);
@@ -118,6 +120,8 @@ const connectTheirVideo = (userId, stream, videoElement) => {
     // TODO: When their stream is disconnected - remove their video element
     socket.on('someone-disconnected', (userId, fullname) => {
         showToast(`${fullname} has left`)
+        setFullscreen()
+
         videoElement.remove()
         if (peers[userId]) peers[userId].close();
     })
@@ -134,6 +138,8 @@ const addVideoStream = (element, stream) => {
 
     // append video to html
     videoGrid.append(element)
+
+    setFullscreen()
 }
 
 // TODO: Show bottom toast
@@ -311,7 +317,7 @@ const myScreen = document.createElement('video')
 myScreen.className = 'screen-video'
 
 const shareScreen = () => {
-    screenStream = navigator.mediaDevices.getDisplayMedia({
+    navigator.mediaDevices.getDisplayMedia({
         video: {
             cursor: "always"
         },
@@ -320,6 +326,7 @@ const shareScreen = () => {
             noiseSuppression: true
         }
     }).then(stream => {
+        screenStream = stream
         let screenTrack = stream.getVideoTracks()[0]
         screenTrack.onended = () => {
             shareUnshare()
@@ -327,15 +334,17 @@ const shareScreen = () => {
 
         iconShareScreen(true) // set icon
 
+        // TODO: Search All Available Peer => 
         for (let i = 0; i < currentPeer.length; i++) {
 
-            let sender = currentPeer[i].getSenders().find(function (s) {
-                return s.track.kind == screenTrack.kind;
+            let sender = currentPeer[i].getSenders().find((sender) => {
+                return sender.track.kind == screenTrack.kind
             })
 
-            sender.replaceTrack(screenTrack);
+            sender.replaceTrack(screenTrack)
         }
 
+        // THIS WILL HIDE VIDEO STREAM FOR NOW
         document.querySelector('.stream__video__grid').className = 'onsharing__grid'
         document.querySelectorAll('.stream-video').forEach((item) => {
             item.className = 'onsharing-video'
@@ -345,7 +354,7 @@ const shareScreen = () => {
         socket.emit('sharing', peer.id, username)
 
         // Make the DIV element draggable:
-        dragElement(document.querySelector(".onsharing__grid"));
+        // dragElement(document.querySelector(".onsharing__grid"))
 
         addScreenStream(myScreen, stream)
     }).catch((e) => {
@@ -354,46 +363,46 @@ const shareScreen = () => {
 }
 
 
-function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.querySelector(".onsharing-video")) {
-        // if present, the header is where you move the DIV from:
-        document.querySelector(".onsharing-video").onmousedown = dragMouseDown;
-    } else {
-        // otherwise, move the DIV from anywhere inside the DIV:
-        elmnt.onmousedown = dragMouseDown;
-    }
+// function dragElement(elmnt) {
+//     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+//     if (document.querySelector(".onsharing-video")) {
+//         // if present, the header is where you move the DIV from:
+//         document.querySelector(".onsharing-video").onmousedown = dragMouseDown;
+//     } else {
+//         // otherwise, move the DIV from anywhere inside the DIV:
+//         elmnt.onmousedown = dragMouseDown;
+//     }
 
-    function dragMouseDown(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-    }
+//     function dragMouseDown(e) {
+//         e = e || window.event;
+//         e.preventDefault();
+//         // get the mouse cursor position at startup:
+//         pos3 = e.clientX;
+//         pos4 = e.clientY;
+//         document.onmouseup = closeDragElement;
+//         // call a function whenever the cursor moves:
+//         document.onmousemove = elementDrag;
+//     }
 
-    function elementDrag(e) {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
+//     function elementDrag(e) {
+//         e = e || window.event;
+//         e.preventDefault();
+//         // calculate the new cursor position:
+//         pos1 = pos3 - e.clientX;
+//         pos2 = pos4 - e.clientY;
+//         pos3 = e.clientX;
+//         pos4 = e.clientY;
+//         // set the element's new position:
+//         elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+//         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+//     }
 
-    function closeDragElement() {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
-}
+//     function closeDragElement() {
+//         // stop moving when mouse button is released:
+//         document.onmouseup = null;
+//         document.onmousemove = null;
+//     }
+// }
 
 // TODO: Create function to handle screen stream
 const addScreenStream = (element, stream) => {
@@ -410,12 +419,7 @@ const addScreenStream = (element, stream) => {
 
 // TODO: Create function to handle stop/enable screen sharing
 const shareUnshare = () => {
-
-    // first of all
-    // check the video - if enabled or not
-    // const shareEnabled = screenStream.getVideoTracks()[0].enabled
-
-    // ? then simply enable/disable the audio => The icon should alse updated accordingly
+    console.log(screenStream);
     if (!screenStream) {
         shareScreen()
     } else {
@@ -427,9 +431,9 @@ const shareUnshare = () => {
         screenStream = null
 
         let videoTrack = myVideoStream.getVideoTracks()[0];
-        for (let x = 0; x < currentPeer.length; x++) {
-            let sender = currentPeer[x].getSenders().find(function (s) {
-                return s.track.kind == videoTrack.kind;
+        for (let i = 0; i < currentPeer.length; i++) {
+            let sender = currentPeer[i].getSenders().find(function (sender) {
+                return sender.track.kind == videoTrack.kind;
             })
             sender.replaceTrack(videoTrack);
         }
@@ -468,7 +472,7 @@ const iconShareScreen = (isSharing) => {
 
 // TODO: When someone is sharing ? what todo ?
 socket.on('someone-sharing', (id, fullname) => {
-
+    setFullscreen()
     // when current user is sharing => do nothing except show toast
     if (peer.id === id) {
         showToast(`You are now sharing screen`)
@@ -482,12 +486,24 @@ socket.on('someone-sharing', (id, fullname) => {
 
 // TODO: When someone is stop sharing ? what todo ?
 socket.on('someone-unshare', (id, fullname) => {
+    setFullscreen()
     // when current user is sharing => do nothing except show toast
     if (peer.id === id) {
         showToast(`You are now stop share screen`)
     } else { // when another user is sharing => bind the stream
         showToast(`${fullname} stop share screen`)
-    
+
         document.querySelector('#main__control__shareScreen').style = 'display:flex'
     }
 })
+
+
+const setFullscreen = () => {
+    const v = document.querySelectorAll('.stream-video').forEach(function (item) {
+        item.addEventListener('click', () => {
+            if (screenfull.isEnabled) {
+                screenfull.toggle(item, {navigationUI: 'hide'})
+            }
+        })
+    })
+}

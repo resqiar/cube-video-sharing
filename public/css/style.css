@@ -1,361 +1,392 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 body {
-    background-color: #121212;
-    margin: 0;
-    padding: 0;
-    overflow-y: hidden;
-    font-family: 'Poppins', sans-serif;
+  background-color: #121212;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
 }
 
 /* width */
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: #1f1b24;
+  background: #1f1b24;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #888;
+  background: #888;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
+}
+
+video::-webkit-media-controls {
+  display: none;
+}
+video::-webkit-media-controls-play-button {
+}
+video::-webkit-media-controls-play-button {
+}
+video::-webkit-media-controls-timeline {
+}
+video::-webkit-media-controls-current-time-display {
+}
+video::-webkit-media-controls-time-remaining-display {
+}
+video::-webkit-media-controls-time-remaining-display {
+}
+video::-webkit-media-controls-mute-button {
+}
+video::-webkit-media-controls-toggle-closed-captions-button {
+}
+video::-webkit-media-controls-volume-slider {
 }
 
 .active {
-    color: slategray;
+  color: slategray;
 }
 
 #video-grid {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .stream-video {
-    width: 400px;
-    height: 300px;
-    padding: 8px;
-    object-fit: cover;
+  width: 400px;
+  height: 300px;
+  margin: 8px;
+  object-fit: cover;
+  transition: 0.3s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.stream-video:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .screen-video {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    object-fit: cover;
-    position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  object-fit: cover;
+  position: relative;
 }
 
 .onsharing__grid {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    z-index: 9;    
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  z-index: 9;
 }
 
 .onsharing-video {
-    width: 280px;
-    height: 180px;
-    padding: 2px;
-    object-fit: cover;
-    z-index: 10;
+  width: 280px;
+  height: 180px;
+  padding: 2px;
+  object-fit: cover;
+  z-index: 10;
 }
 
 .main {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
 .main__left {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .main__video {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
-    overflow-y: hidden;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
 }
 
 .main__control {
-    background-color: #1f1b24;
-    height: 50px;
-    color: white;
-    display: flex;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    position: fixed;
-    justify-content: space-between;
-    padding-left: 8px;
-    padding-right: 8px;
+  background-color: #1f1b24;
+  height: 50px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.774);
+  color: white;
+  display: flex;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  justify-content: space-between;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .main__show__control {
-    background-color: transparent;
-    height: min-content;
-    width: min-content;
-    color: white;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    position: fixed;
-    padding: 4px;
-    cursor: pointer;
-    display: none;
-    border-radius: 20px;
+  background-color: transparent;
+  height: min-content;
+  width: min-content;
+  color: white;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  position: fixed;
+  padding: 4px;
+  cursor: pointer;
+  display: none;
+  border-radius: 20px;
 }
 
 .main__hide__control {
-    background-color: transparent;
-    height: min-content;
-    width: min-content;
-    color: gray;
-    display: flex;
-    gap: 4px;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin-bottom: 65px;
-    margin-left: 10px;
-    position: fixed;
-    padding: 4px;
-    cursor: pointer;
-    border-radius: 20px;
+  background-color: transparent;
+  height: min-content;
+  width: min-content;
+  color: gray;
+  display: flex;
+  gap: 4px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin-bottom: 65px;
+  margin-left: 10px;
+  position: fixed;
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 20px;
 }
 
-.main__show__control:hover{
-    background-color: #1f1b24;
+.main__show__control:hover {
+  background-color: #1f1b24;
 }
 
-.main__hide__control:hover{
-    background-color: #1f1b246b;
+.main__hide__control:hover {
+  background-color: #1f1b246b;
 }
 
 .main__control__block {
-    display: flex;
+  display: flex;
 }
 
 .main__control__button {
-    display: flex;
-    color: gray;
-    padding: 6px 8px 0px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
+  display: flex;
+  color: gray;
+  padding: 6px 8px 0px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .main__control__button__text {
-    margin-top: 4px;
-    font-size: 12px;
-    letter-spacing: 2px;
+  margin-top: 4px;
+  font-size: 12px;
+  letter-spacing: 2px;
 }
 
 .main__control__button:hover {
-    background-color: #343434;
-    color: white;
+  background-color: #343434;
+  color: white;
 }
 
 .main__control__button__leaving {
-    display: flex;
-    padding: 4px 8px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
+  display: flex;
+  padding: 4px 8px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .main__control__button__text__leaving {
-    color: red;
-    padding: 2px 4px;
-    border: 1px solid red;
-    border-radius: 5px;
+  color: red;
+  padding: 2px 4px;
+  border: 1px solid red;
+  border-radius: 5px;
 }
 
 .main__control__button__text__leaving:hover {
-    color: red;
-    font-weight: bold;
-    padding: 2px 4px;
-    border: 2px solid red;
-    border-radius: 5px;
+  color: red;
+  font-weight: bold;
+  padding: 2px 4px;
+  border: 2px solid red;
+  border-radius: 5px;
 }
 
 .main__right {
-    flex: 0.3;
-    background-color: #1f1b24;
-    color: white;
-    display: flex;
-    flex-direction: column;
+  margin-bottom: 50px;
+  max-height: 620px;
+  flex: 0.3;
+  background-color: #1f1b24;
+  color: white;
+  display: flex;
+  flex-direction: column;
 }
 
 .main__right__hidden {
-    display: none;
+  display: none;
 }
 
 .main__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .main__header__close {
-    color: gray;
-    cursor: pointer;
-    flex: 0.2;
+  color: gray;
+  cursor: pointer;
+  flex: 0.2;
 }
 
 .main__header__close:hover {
-    color: #fff;
-    cursor: pointer;
-    flex: 0.2;
+  color: #fff;
+  cursor: pointer;
+  flex: 0.2;
 }
 
 .main__header__title {
-    flex: 0.6;
+  flex: 0.6;
 }
 
 .main__chat {
-    flex-grow: 1;
-    overflow: auto;
+  flex-grow: 1;
+  overflow: auto;
 }
 
 .main__chat__input {
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-top: 1px solid slategray;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #chat__input {
-    box-sizing: border-box;
-    width: 100%;
-    padding: 8px;
-    border-radius: 10px;
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    font-size: 14px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 14px;
 }
 
 #chat__input:focus {
-    outline: none;
+  outline: none;
 }
 
 .chat__user {
-    font-size: small;
-    color: slategray;
+  font-size: small;
+  color: slategray;
 }
 
 .chat__text {
-    margin-top: -4px;
-    font-size: smaller;
+  margin-top: -4px;
+  font-size: smaller;
 }
 
 .chat__container {
-    display: flex;
-    flex-direction: column;
-    padding: 2px 18px;
-    list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding: 2px 18px;
+  list-style: none;
 }
 
 /* ? The snackbar - position it at the bottom and in the middle of the screen ? */
 #snackbar {
-    visibility: hidden;
-    /* Hidden by default. Visible on click */
-    min-width: 250px;
-    /* Set a default minimum width */
-    margin-left: -125px;
-    /* Divide value of min-width by 2 */
-    background-color: #333;
-    /* Black background color */
-    color: #fff;
-    /* White text color */
-    text-align: center;
-    /* Centered text */
-    border-radius: 2px;
-    /* Rounded borders */
-    padding: 16px;
-    /* Padding */
-    position: fixed;
-    /* Sit on top of the screen */
-    z-index: 1;
-    /* Add a z-index if needed */
-    left: 50%;
-    /* Center the snackbar */
-    bottom: 30px;
-    /* 30px from the bottom */
+  visibility: hidden;
+  /* Hidden by default. Visible on click */
+  min-width: 250px;
+  /* Set a default minimum width */
+  margin-left: -125px;
+  /* Divide value of min-width by 2 */
+  background-color: #333;
+  /* Black background color */
+  color: #fff;
+  /* White text color */
+  text-align: center;
+  /* Centered text */
+  border-radius: 2px;
+  /* Rounded borders */
+  padding: 16px;
+  /* Padding */
+  position: fixed;
+  /* Sit on top of the screen */
+  z-index: 1;
+  /* Add a z-index if needed */
+  left: 50%;
+  /* Center the snackbar */
+  bottom: 30px;
+  /* 30px from the bottom */
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
-    visibility: visible;
-    /* Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  visibility: visible;
+  /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
     However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 /* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
 
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-    from {
-        bottom: 0;
-        opacity: 0;
-    }
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
 
-    to {
-        bottom: 30px;
-        opacity: 1;
-    }
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
 
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-    from {
-        bottom: 30px;
-        opacity: 1;
-    }
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
 
-    to {
-        bottom: 0;
-        opacity: 0;
-    }
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
 }
