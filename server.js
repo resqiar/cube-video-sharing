@@ -50,6 +50,14 @@ io.on('connection', (socket) => {
             io.to(roomId).emit('messaging', message, userId, fullname)
         })
 
+        socket.on('sharing', (id, fullname) => {
+            io.to(roomId).emit('someone-sharing', id, fullname)
+        })
+
+        socket.on('stop-sharing', (id, fullname) => {
+            io.to(roomId).emit('someone-unshare', id, fullname)
+        })
+
         // broadcast to everyone in the specific room that someone has left
         socket.on('disconnect', () => {
             socket.to(roomId).broadcast.emit('someone-disconnected', userId, fullname)
