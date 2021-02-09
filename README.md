@@ -4,9 +4,8 @@ Video sharing application with real-time data communication. Powered by Socket.i
 # 📷 Screenshot
 ![screenshot-image](https://i.imgur.com/Ut5zGo0.png)
 
-### 🌐 Live Preview
-> You can live preview it on heroku hosting [here](https://cube-video-sharing.herokuapp.com/)
-https://cube-video-sharing.herokuapp.com/
+### 🌐 Live Preview (Demo)
+> You can live preview it on heroku hosting [HERE](https://guarded-harbor-56339.herokuapp.com/)
 
 # 🎉 New Features
 - Share Screen
