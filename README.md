@@ -1,45 +1,48 @@
 # Cube Video Sharing Application
 Video sharing application with real-time data communication. Powered by Socket.io and Peer to Peer data stream.
 
-## Screenshot
+# 📷 Screenshot
 ![screenshot-image](https://i.imgur.com/Ut5zGo0.png)
 
-### Live Preview
-> You can live preview it on heroku hosting [here](https://guarded-harbor-56339.herokuapp.com/)
-https://guarded-harbor-56339.herokuapp.com/
+### 🌐 Live Preview
+> You can live preview it on heroku hosting [here](https://cube-video-sharing.herokuapp.com/)
+https://cube-video-sharing.herokuapp.com/
 
-### Current Feature on Development
+# 🎉 New Features
 - Share Screen
+- Click to Fullscreen
+- Keyboard Binding Controls
+- UI Improvement
 
-### Developed using
+### ⚙️ Developed using
 - Node.js
 - Express.js
 - Socket.io
 - PeerJs
 
-## How to install
+# 📥 How to install
 
 Make sure you have Node.js installed in your system.
 
-Clone this repo
+### Clone this repo
 
     git clone https://github.com/resqiar/cube-video-sharing
 
-Install PeerJS (global installation is recommended)
+### Install PeerJS (global installation is recommended)
 
     npm i -g peerjs
 
-Now to install all required node modules
+### Now to install all required node modules
 
     npm install
 
-## How to use
+# 📥 How to use
 
 ### Run Server
 
     node run dev
 
-Server Started on Port 3030.
+Server Started on Port 3000.
 
 ### Run PeerJS Server in separate terminal.
 
@@ -66,3 +69,6 @@ Username will stored in web session, meaning that it won't be changed or prompte
 ### Share the link
 
 Share the link to your friends to start video sharing
+
+# 🐞 Issue
+If you encountered bugs please make a new issue [here](https://github.com/resqiar/cube-video-sharing/issues)
