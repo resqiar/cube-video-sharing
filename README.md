@@ -31,7 +31,7 @@ Make sure you have Node.js installed in your system.
 
     npm i -g peerjs
 
-### Now to install all required node modules
+### Install all required modules
 
     npm install
 
@@ -39,7 +39,7 @@ Make sure you have Node.js installed in your system.
 
 ### Run Server
 
-    node run dev
+    npm run dev
 
 Server Started on Port 3000.
 
@@ -47,23 +47,22 @@ Server Started on Port 3000.
 
     peerjs --port 443
     
-> If you encountered an error => change port: 443 to port 3030 in script.js and skip step above
-
 PeerJS Server Started on Port 443.
+> If you encountered an error => change port: "443" to port "3000" in public/js/utils/setup/Setup.js and skip step above
 
 ### Open a browser
 
-Open browser and goto http://localhost:3030/
+Open browser and goto http://localhost:3000/
 
 ### Allow permission
 
 Allow camera and audio access requested.
 
-### Enter username
+### Enter username (Optional)
 
-Username will stored in web session, meaning that it won't be changed or prompted again unless you close the tab
+Username will be stored in the web session, meaning that it won't be changed or prompted again unless you close the tab
 
-> if you dont specify any name => default name is 'Anonymous'
+> if you don't specify any, the default is 'Anonymous'
 
 ### Share the link
 
